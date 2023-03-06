@@ -123,6 +123,7 @@ class StudentController extends Controller
 
     public function update(Request $request)
     {
+        //dd($request);
         if (!Auth::user()->can('student-create') || !Auth::user()->can('student-edit')) {
             $response = array(
                 'message' => trans('no_permission_message')
@@ -132,19 +133,19 @@ class StudentController extends Controller
 
         $request->validate([
             'first_name' => 'required',
-            'last_name' => 'required',
+            //'last_name' => 'required',
             'mobile' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
             'image' => 'mimes:jpeg,png,jpg|image|max:2048',
             'dob' => 'required',
             'class_section_id' => 'required',
-            'category_id' => 'required',
+            //'category_id' => 'required',
             'admission_no' => 'required|unique:users,email,' . $request->edit_id,
             'roll_number' => 'required',
             //            'caste' => 'required',
-            //            'religion' => 'required',
+            'religion' => 'required',
             'admission_date' => 'required',
-            'height' => 'required',
-            'weight' => 'required',
+            //'height' => 'required',
+            //'weight' => 'required',
             'current_address' => 'required',
             'permanent_address' => 'required',
             'father_email' => 'required',
@@ -152,9 +153,9 @@ class StudentController extends Controller
             'father_mobile' => 'required',
             'father_occupation' => 'required',
             'mother_first_name' => 'required',
-            'mother_last_name' => 'required',
-            'mother_mobile' => 'required',
-            'mother_occupation' => 'required',
+            //'mother_last_name' => 'required',
+            //'mother_mobile' => 'required',
+            //'mother_occupation' => 'required',
         ]);
         if (!intval($request->father_email)) {
             $request->validate([
@@ -330,33 +331,33 @@ class StudentController extends Controller
             );
             return response()->json($response);
         }
-
+       
         $request->validate([
             'first_name' => 'required',
-            'last_name' => 'required',
+            //'last_name' => 'required',
             'mobile' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
             'image' => 'mimes:jpeg,png,jpg|image|max:2048',
             'dob' => 'required',
             'class_section_id' => 'required',
-            'category_id' => 'required',
+            //'category_id' => 'required',
             'admission_no' => 'required|unique:users,email',
             //            'caste' => 'required',
-            //            'religion' => 'required',
+            'religion' => 'required',
             'admission_date' => 'required',
-            'height' => 'required',
-            'weight' => 'required',
+            //'height' => 'required',
+            //'weight' => 'required',
             'current_address' => 'required',
             'permanent_address' => 'required',
 
             'father_first_name' => 'required',
-            'father_last_name' => 'required',
+            //'father_last_name' => 'required',
             'father_mobile' => 'required',
             'father_occupation' => 'required',
 
             'mother_first_name' => 'required',
-            'mother_last_name' => 'required',
-            'mother_mobile' => 'required',
-            'mother_occupation' => 'required',
+            //'mother_last_name' => 'required',
+            //'mother_mobile' => 'required',
+            //'mother_occupation' => 'required',
         ]);
         if (!intval($request->father_email)) {
             $request->validate([

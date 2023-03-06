@@ -167,7 +167,7 @@ $(".edit-class-teacher-form").validate({
 $(".student-registration-form").validate({
     rules: {
         'first_name': "required",
-        'last_name': "required",
+        //'last_name': "required",
         'mobile': "number",
         'image': "required",
         'dob': "required",
@@ -176,15 +176,15 @@ $(".student-registration-form").validate({
         'admission_no': "required",
         'roll_number': "required",
         // 'caste': "required",
-        // 'religion': "required",
+        'religion': "required",
         'admission_date': "required",
-        'blood_group': "required",
-        'height': "required",
-        'weight': "required",
+        //'blood_group': "required",
+        //'height': "required",
+        //'weight': "required",
         'current_address': "required",
         'permanent_address': "required",
         'father_first_name': "required",
-        'father_last_name': "required",
+        //'father_last_name': "required",
         'father_email': {
             "email": true,
             "required": true,
@@ -194,20 +194,20 @@ $(".student-registration-form").validate({
             "required": true,
         },
         'father_occupation': "required",
-        'father_dob': "required",
+        //'father_dob': "required",
 
         'mother_email': {
             "required": true,
             "email": true,
         },
         'mother_first_name': "required",
-        'mother_last_name': "required",
+        //'mother_last_name': "required",
         'mother_mobile': {
             "number": true,
             "required": true,
         },
-        'mother_occupation': "required",
-        'mother_dob': "required",
+        //'mother_occupation': "required",
+        //'mother_dob': "required",
 
         'guardian_email': {
             "required": true,

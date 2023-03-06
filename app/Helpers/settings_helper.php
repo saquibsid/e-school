@@ -174,5 +174,9 @@ function findExamGrade($percentage)
 }
 function resizeImage($image)
 {
-    Image::make($image)->save(null,50);
+    //dd(request()->getHost());
+    if(request()->getHost() !== 'localhost'){
+        Image::make($image)->save(null,50);
+    }
+    
 }

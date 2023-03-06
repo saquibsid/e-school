@@ -28,7 +28,7 @@
 
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('last_name') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('last_name') }}</label>
                                     {!! Form::text('last_name', null, ['placeholder' => __('last_name'), 'class' => 'form-control']) !!}
 
                                 </div>
@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('image') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('Student Photo') }} <span class="text-danger">*</span></label>
                                     <input type="file" name="image" class="file-upload-default"/>
                                     <div class="input-group col-xs-12">
                                         <input type="text" class="form-control file-upload-info" disabled="" placeholder="{{ __('image') }}" required="required"/>
@@ -90,8 +90,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('gr_number') }} <span class="text-danger">*</span></label>
-                                    {!! Form::text('admission_no', $admission_no, ['readonly','placeholder' => __('gr_number'), 'class' => 'form-control']) !!}
+                                    <label>{{ __('Enrollment Number') }} <span class="text-danger">*</span></label>
+                                    {!! Form::text('admission_no', $admission_no, ['readonly','placeholder' => __('Enrollment Number'), 'class' => 'form-control']) !!}
                                 </div>
                             </div>
                             <div class="row">
@@ -101,8 +101,14 @@
 
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('religion') }}</label>
-                                    {!! Form::text('religion', null, ['placeholder' => __('religion'), 'class' => 'form-control']) !!}
+                                    <label>{{ __('religion') }}<span class="text-danger">*</span></label>
+                                    <select name="religion" class="form-control">
+                                        <option value="">{{ __('select') . ' ' . __('religion') }}</option>
+                                        @foreach (config('constants.RELIGION') as $key => $value)
+                                            <option value="{{ $value }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                    <!-- {!! Form::text('religion', null, ['placeholder' => __('religion'), 'class' => 'form-control']) !!} -->
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
                                     <label>{{ __('admission_date') }} <span class="text-danger">*</span></label>
@@ -113,7 +119,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('blood_group') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('blood_group') }} </label>
                                     <select name="blood_group" class="form-control">
                                         <option value="">{{ __('select') . ' ' . __('blood_group') }}</option>
                                         <option value="A+">A+</option>
@@ -127,11 +133,11 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('height') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('height') }} </label>
                                     {!! Form::text('height', null, ['placeholder' => __('height'), 'class' => 'form-control']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('weight') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('weight') }} </label>
                                     {!! Form::text('weight', null, ['placeholder' => __('weight'), 'class' => 'form-control']) !!}
                                 </div>
                             </div>
@@ -161,7 +167,7 @@
                                     {!! Form::text('father_first_name', null, ['placeholder' => __('father') . ' ' . __('first_name'), 'class' => 'form-control', 'id' => 'father_first_name']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('father') . ' ' . __('last_name') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('father') . ' ' . __('last_name') }}</label>
                                     {!! Form::text('father_last_name', null, ['placeholder' => __('father') . ' ' . __('last_name'), 'class' => 'form-control', 'id' => 'father_last_name']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
@@ -169,7 +175,7 @@
                                     {!! Form::text('father_mobile', null, ['placeholder' => __('father') . ' ' . __('mobile'), 'class' => 'form-control', 'id' => 'father_mobile']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('father') . ' ' . __('dob') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('father') . ' ' . __('dob') }}</label>
                                     {!! Form::text('father_dob', null, ['placeholder' => __('father') . ' ' . __('dob'), 'class' => 'form-control datepicker-popup form-control', 'id' => 'father_dob']) !!}
                                 </div>
 
@@ -205,19 +211,19 @@
                                 </div>
 
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('mother') . ' ' . __('last_name') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('mother') . ' ' . __('last_name') }}</label>
                                     {!! Form::text('mother_last_name', null, ['placeholder' => __('mother') . ' ' . __('last_name'), 'class' => 'form-control', 'id' => 'mother_last_name']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('mother') . ' ' . __('mobile') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('mother') . ' ' . __('mobile') }}</label>
                                     {!! Form::text('mother_mobile', null, ['placeholder' => __('mother') . ' ' . __('mobile'), 'class' => 'form-control', 'id' => 'mother_mobile']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('mother') . ' ' . __('dob') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('mother') . ' ' . __('dob') }}</label>
                                     {!! Form::text('mother_dob', null, ['placeholder' => __('mother') . ' ' . __('dob'), 'class' => 'form-control datepicker-popup form-control', 'id' => 'mother_dob']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('mother') . ' ' . __('occupation') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('mother') . ' ' . __('occupation') }}</label>
                                     {!! Form::text('mother_occupation', null, ['placeholder' => __('mother') . ' ' . __('occupation'), 'class' => 'form-control', 'id' => 'mother_occupation']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
