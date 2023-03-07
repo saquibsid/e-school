@@ -156,11 +156,11 @@
                             <hr>
                             <h4>{{ __('parent_guardian_details') }}</h4><br>
                             <div class="row">
-                                <div class="form-group col-sm-12 col-md-12">
+                                <!-- <div class="form-group col-sm-12 col-md-12">
                                     <label>{{ __('father_email') }} <span class="text-danger">*</span></label>
 
                                     <select class="father-search w-100" id="father_email" name="father_email"></select>
-                                </div>
+                                </div> -->
 
                                 <div class="form-group col-sm-12 col-md-4">
                                     <label>{{ __('father') . ' ' . __('first_name') }} <span class="text-danger">*</span></label>
@@ -200,10 +200,10 @@
 
                             <hr>
                             <div class="row">
-                                <div class="form-group col-sm-12 col-md-12">
+                                <!-- <div class="form-group col-sm-12 col-md-12">
                                     <label>{{ __('mother_email') }} <span class="text-danger">*</span></label>
                                     <select class="mother-search w-100" id="mother_email" name="mother_email"></select>
-                                </div>
+                                </div> -->
 
                                 <div class="form-group col-sm-12 col-md-4">
                                     <label>{{ __('mother') . ' ' . __('first_name') }} <span class="text-danger">*</span></label>
@@ -249,10 +249,10 @@
                                 </div>
                             </div>
                             <div class="row" id="guardian_div" style="display:none;">
-                                <div class="form-group col-sm-12 col-md-12">
+                                <!-- <div class="form-group col-sm-12 col-md-12">
                                     <label>{{ __('guardian') . ' ' . __('email') }} <span class="text-danger">*</span></label>
                                     <select class="guardian-search form-control" id="guardian_email" name="guardian_email"></select>
-                                </div>
+                                </div> -->
 
                                 <div class="form-group col-sm-12 col-md-4">
                                     <label>{{ __('guardian') . ' ' . __('first_name') }} <span class="text-danger">*</span></label>

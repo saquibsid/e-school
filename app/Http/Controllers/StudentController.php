@@ -33,7 +33,6 @@ use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-
 class StudentController extends Controller
 {
     public function index()
@@ -351,24 +350,25 @@ class StudentController extends Controller
 
             'father_first_name' => 'required',
             //'father_last_name' => 'required',
-            'father_mobile' => 'required',
+            'father_mobile' => 'required|unique:users,email',
             'father_occupation' => 'required',
 
             'mother_first_name' => 'required',
             //'mother_last_name' => 'required',
-            //'mother_mobile' => 'required',
+            'mother_mobile' => 'unique:users,email',
             //'mother_occupation' => 'required',
         ]);
-        if (!intval($request->father_email)) {
+
+        if (!empty($request->father_mobile)) {
             $request->validate([
-                'father_email' => 'required|email|unique:users,email|unique:parents,email',
+                'father_mobile' => 'required|unique:users,email|unique:parents,mobile',
                 'father_image' => 'required|mimes:jpeg,png,jpg|image|max:2048',
             ]);
         }
 
-        if (!intval($request->mother_email)) {
+        if (isset($request->mother_mobile)) {
             $request->validate([
-                'mother_email' => 'required|email|unique:users,email|unique:parents,email',
+                'mother_mobile' => 'required|unique:users,email|unique:parents,mobile',
                 'mother_image' => 'required|mimes:jpeg,png,jpg|image|max:2048',
             ]);
         }
@@ -381,12 +381,12 @@ class StudentController extends Controller
         }
         $response = array();
         try {
+            DB::beginTransaction();
             $parentRole = Role::where('name', 'Parent')->first();
             $studentRole = Role::where('name', 'Student')->first();
             //Add Father in User and Parent table data
             $father_plaintext_password = str_replace('-', '', date('d-m-Y', strtotime($request->father_dob)));
-            if (!intval($request->father_email)) {
-                $father_email = $request->father_email;
+            if (!empty($request->father_mobile)) {
                 $father_user = new User();
 
                 $father_image = $request->file('father_image');
@@ -404,7 +404,7 @@ class StudentController extends Controller
                 $father_user->password = Hash::make($father_plaintext_password);
                 $father_user->first_name = $request->father_first_name;
                 $father_user->last_name = $request->father_last_name;
-                $father_user->email = $father_email;
+                $father_user->email = $request->father_mobile;
                 $father_user->mobile = $request->father_mobile;
                 $father_user->dob = date('Y-m-d', strtotime($request->father_dob));
                 $father_user->gender = 'Male';
@@ -418,23 +418,25 @@ class StudentController extends Controller
                 $father_parent->image = $father_user->getRawOriginal('image');
                 $father_parent->occupation = $request->father_occupation;
                 $father_parent->mobile = $request->father_mobile;
-                $father_parent->email = $request->father_email;
+                //$father_parent->email = $request->father_email;
                 $father_parent->dob = date('Y-m-d', strtotime($request->father_dob));
                 $father_parent->gender = 'Male';
                 $father_parent->save();
                 $father_parent_id = $father_parent->id;
                 $father_email = $request->father_email;
                 $father_name = $request->father_first_name;
-            } else {
-                $father_parent_id = $request->father_email;
-                $father_email = Parents::where('id', $request->father_email)->pluck('email')->first();
-                $father_name = Parents::where('id', $request->father_email)->pluck('first_name')->first();
             }
+            
+            // else {
+            //     $father_parent_id = $request->father_email;
+            //     $father_email = Parents::where('id', $request->father_email)->pluck('email')->first();
+            //     $father_name = Parents::where('id', $request->father_email)->pluck('first_name')->first();
+            // }
 
             //Add Mother in User and Parent table data
             $mother_plaintext_password = str_replace('-', '', date('d-m-Y', strtotime($request->mother_dob)));
-            if (!intval($request->mother_email)) {
-                $mother_email = $request->mother_email;
+            if (!empty($request->mother_mobile)) {
+                $mother_email = $request->mother_mobile;
                 $mother_user = new User();
 
                 $mother_image = $request->file('mother_image');
@@ -466,22 +468,24 @@ class StudentController extends Controller
                 $mother_parent->image = $mother_user->getRawOriginal('image');
                 $mother_parent->occupation = $request->mother_occupation;
                 $mother_parent->mobile = $request->mother_mobile;
-                $mother_parent->email = $request->mother_email;
+                //$mother_parent->email = $request->mother_email;
                 $mother_parent->dob = date('Y-m-d', strtotime($request->mother_dob));
                 $mother_parent->gender = 'Female';
                 $mother_parent->save();
                 $mother_parent_id = $mother_parent->id;
                 $mother_email = $request->mother_email;
                 $mother_name = $request->mother_first_name;
-            } else {
-                $mother_parent_id = $request->mother_email;
-                $mother_email = Parents::where('id', $request->mother_email)->pluck('email')->first();
-                $mother_name = Parents::where('id', $request->mother_email)->pluck('first_name')->first();
-            }
+            } 
+            
+            // else {
+            //     $mother_parent_id = $request->mother_email;
+            //     $mother_email = Parents::where('id', $request->mother_email)->pluck('email')->first();
+            //     $mother_name = Parents::where('id', $request->mother_email)->pluck('first_name')->first();
+            // }
 
-            if (isset($request->guardian_email)) {
-                if (!intval($request->guardian_email)) {
-                    $guardian_email = $request->guardian_email;
+            if (isset($request->guardian_mobile)) {
+                if (!empty($request->guardian_mobile)) {
+                    $guardian_email = $request->guardian_mobile;
                     $guardian_parent = new Parents();
                     $guardian_parent->user_id = 0;
                     $guardian_parent->first_name = $request->guardian_first_name;
@@ -501,15 +505,16 @@ class StudentController extends Controller
                     $guardian_parent->image = $file_path;
                     $guardian_parent->occupation = $request->guardian_occupation;
                     $guardian_parent->mobile = $request->guardian_mobile;
-                    $guardian_parent->email = $guardian_email;
+                    //$guardian_parent->email = $guardian_email;
                     $guardian_parent->dob = date('Y-m-d', strtotime($request->guardian_dob));
                     $guardian_parent->gender = $request->guardian_gender;
                     $guardian_parent->save();
                     $guardian_parent_id = $guardian_parent->id;
                     $guardian_name = $request->guardian_first_name;
-                } else {
-                    $guardian_parent_id = $request->guardian_email;
                 }
+                // else {
+                //     $guardian_parent_id = $request->guardian_email;
+                // }
             } else {
                 $guardian_parent_id = 0;
             }
@@ -570,40 +575,42 @@ class StudentController extends Controller
 
             //Send User Credentials via Email
             $school_name = getSettings('school_name');
-            $father_data = [
-                'subject' => 'Welcome to ' . $school_name['school_name'],
-                'email' => $father_email,
-                'name' => ' ' . $father_name,
-                'username' => ' ' . $father_email,
-                'password' => ' ' . $father_plaintext_password,
-                'child_name' => ' ' . $request->first_name,
-                'child_grnumber' => ' ' . $request->admission_no,
-                'child_password' => ' ' . $child_plaintext_password,
-            ];
+            // $father_data = [
+            //     'subject' => 'Welcome to ' . $school_name['school_name'],
+            //     'email' => $father_email,
+            //     'name' => ' ' . $father_name,
+            //     'username' => ' ' . $father_email,
+            //     'password' => ' ' . $father_plaintext_password,
+            //     'child_name' => ' ' . $request->first_name,
+            //     'child_grnumber' => ' ' . $request->admission_no,
+            //     'child_password' => ' ' . $child_plaintext_password,
+            // ];
 
-            Mail::send('students.email', $father_data, function ($message) use ($father_data) {
-                $message->to($father_data['email'])->subject($father_data['subject']);
-            });
+            // Mail::send('students.email', $father_data, function ($message) use ($father_data) {
+            //     $message->to($father_data['email'])->subject($father_data['subject']);
+            // });
 
-            $mother_data = [
-                'subject' => 'Welcome to ' . $school_name['school_name'],
-                'email' => $mother_email,
-                'name' => ' ' . $mother_name,
-                'username' => ' ' . $mother_email,
-                'password' => ' ' . $mother_plaintext_password,
-                'child_name' => ' ' . $request->first_name,
-                'child_grnumber' => ' ' . $request->admission_no,
-                'child_password' => ' ' . $child_plaintext_password,
-            ];
+            // $mother_data = [
+            //     'subject' => 'Welcome to ' . $school_name['school_name'],
+            //     'email' => $mother_email,
+            //     'name' => ' ' . $mother_name,
+            //     'username' => ' ' . $mother_email,
+            //     'password' => ' ' . $mother_plaintext_password,
+            //     'child_name' => ' ' . $request->first_name,
+            //     'child_grnumber' => ' ' . $request->admission_no,
+            //     'child_password' => ' ' . $child_plaintext_password,
+            // ];
 
-            Mail::send('students.email', $mother_data, function ($message) use ($mother_data) {
-                $message->to($mother_data['email'])->subject($mother_data['subject']);
-            });
+            // Mail::send('students.email', $mother_data, function ($message) use ($mother_data) {
+            //     $message->to($mother_data['email'])->subject($mother_data['subject']);
+            // });
             $response = [
                 'error' => false,
                 'message' => trans('data_store_successfully')
             ];
+            DB::commit();
         } catch (Throwable $e) {
+            DB::rollback();
             $response = array(
                 'error' => true,
                 'message' => trans('error_occurred'),

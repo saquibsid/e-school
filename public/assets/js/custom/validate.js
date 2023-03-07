@@ -185,10 +185,10 @@ $(".student-registration-form").validate({
         'permanent_address': "required",
         'father_first_name': "required",
         //'father_last_name': "required",
-        'father_email': {
-            "email": true,
-            "required": true,
-        },
+        // 'father_email': {
+        //     "email": true,
+        //     "required": true,
+        // },
         'father_mobile': {
             "number": true,
             "required": true,
@@ -196,10 +196,10 @@ $(".student-registration-form").validate({
         'father_occupation': "required",
         //'father_dob': "required",
 
-        'mother_email': {
-            "required": true,
-            "email": true,
-        },
+        // 'mother_email': {
+        //     "required": true,
+        //     "email": true,
+        // },
         'mother_first_name': "required",
         //'mother_last_name': "required",
         'mother_mobile': {
@@ -209,10 +209,10 @@ $(".student-registration-form").validate({
         //'mother_occupation': "required",
         //'mother_dob': "required",
 
-        'guardian_email': {
-            "required": true,
-            "email": true,
-        },
+        // 'guardian_email': {
+        //     "required": true,
+        //     "email": true,
+        // },
         'guardian_first_name': "required",
         'guardian_last_name': "required",
         'guardian_mobile': {
